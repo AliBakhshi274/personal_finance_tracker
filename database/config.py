@@ -21,9 +21,9 @@ def get_connection():
 try:
     SECRET_KEY = os.getenv("SECRET_KEY")
     engine = get_connection()
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     Base = declarative_base()
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     print(
         f"Connection to the {engine.name} for user {engine} created successfully.")
