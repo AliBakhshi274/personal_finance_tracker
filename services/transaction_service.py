@@ -38,22 +38,22 @@ class TransactionService:
     def get_by_category(self, category: str):
         return self.repo.get_by_category(category)
 
-# if '__main__' == __name__:
-#     session = SessionLocal()
-#     service = TransactionService(session)
-#
-#     service.add_transaction(
-#         amount=15.65,
-#         currency="EUR",
-#         category="Shopping",
-#         description="a Suit",
-#         date=datetime.now()
-#     )
-#
-#     print(service.get_all())
-#     print(service.get_by_category("Food"))
-#
-#     session.close()
+if '__main__' == __name__:
+    session = SessionLocal()
+    service = TransactionService(session)
+
+    service.add_transaction(
+        amount=85.65,
+        currency="EUR",
+        category="Shopping",
+        description="a Suit",
+        date=datetime.now()
+    )
+
+    print(service.get_all())
+    print(service.get_by_category("Food"))
+
+    session.close()
 
 
 
