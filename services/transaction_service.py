@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
@@ -15,7 +15,8 @@ class TransactionService:
                         currency: str = "EUR",
                         category: str = None,
                         description: str = "",
-                        date: datetime = datetime.now()
+                        date: datetime = datetime.now(timezone.utc),
+                        user_id: int = None,
                         ):
         if amount == 0:
             raise ValueError("Amount can't be zero")
@@ -27,27 +28,32 @@ class TransactionService:
             currency=currency,
             category=category,
             description=description,
-            date=date
+            date=date,
+            user_id=user_id,
         )
 
         return self.repo.add_transaction(transaction)
 
-    def get_all(self):
-        return self.repo.get_all()
+    def get_all(self, user_id: int):
+        return self.repo.get_all(user_id=user_id)
 
     def get_by_category(self, category: str):
         return self.repo.get_by_category(category)
+
+    def delete_by_user_id(self, user_id: int):
+        return self.repo.delete_transaction(user_id)
 
 if '__main__' == __name__:
     session = SessionLocal()
     service = TransactionService(session)
 
     service.add_transaction(
-        amount=85.65,
+        amount=82.00,
         currency="EUR",
         category="Shopping",
-        description="a Suit",
-        date=datetime.now()
+        description="das Handtuch",
+        date=datetime.now(),
+        user_id=1
     )
 
     print(service.get_all())
