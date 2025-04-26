@@ -108,14 +108,38 @@ def delete_account():
     typer.echo("Account deleted successfully")
     db.close()
 
+@app.command()
+def daily_summary():
+    user_id = load_session()
+    db = SessionLocal()
+    service = TransactionService(db)
+    summary = service.daily_summary(user_id=user_id)
+    for day, total in summary:
+        typer.echo(f"{day}: {total}")
+    db.close()
+
+@app.command()
+def monthly_summary():
+    user_id = load_session()
+    db = SessionLocal()
+    service = TransactionService(db)
+    summary = service.monthly_summary(user_id=user_id)
+    for year, month, total in summary:
+        typer.echo(f"{year}-{month}: {total}")
+    db.close()
+
+
 if __name__ == "__main__":
     # register("555", "555@gmail.com", "555")
     # register("666", "666@gmail.com", "666")
     # login("666@gmail.com", "666")
     # login("55555@gmail.com", "55555")
-    add_transaction(amount=20, currency="IRR", category="Fruit", description="Banana")
+    # add_transaction(amount=30, currency="IRR", category="Fruit", description="Banana")
+    # add_transaction(amount=45, currency="USD", category="Fruit", description="Orange")
+    # add_transaction(amount=45, category="Fruit", description="watermelon")
     # add_transaction(amount=45, category="Snacks", description="Chips")
-    # add_transaction(amount=45, category="Snacks", description="Chips")
-    # add_transaction(amount=45, category="Snacks", description="Chips")
+    daily_summary()
+    print(".......................................................")
+    monthly_summary()
     # sign_out()
     # delete_account()

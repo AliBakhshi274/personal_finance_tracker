@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from database.config import SessionLocal
@@ -42,17 +43,47 @@ class TransactionRepo:
         self.session.commit()
         return transactions
 
+    def get_daily_summary(self, user_id: int):
+        return (
+            self.session.query(
+                func.date(TransactionModel.date).label('day'),
+                func.sum(TransactionModel.amount).label('total_amount'),
+            )
+            .filter(TransactionModel.user_id == user_id)
+            .group_by(func.date(TransactionModel.date))
+            .order_by(func.date(TransactionModel.date))
+            .all()
+        )
+
+    def get_monthly_summary(self, user_id: int):
+        return (
+            self.session.query(
+                func.extract('year', TransactionModel.date).label('year'),
+                func.extract('month', TransactionModel.date).label('month'),
+                func.sum(TransactionModel.amount).label('total_amount'),
+            )
+            .filter(TransactionModel.user_id == user_id)
+            .group_by(
+                func.extract('year', TransactionModel.date),
+                func.extract('month', TransactionModel.date)
+                      )
+            .order_by(func.extract('year', TransactionModel.date), func.extract('month', TransactionModel.date))
+            .all()
+        )
+
 
 if __name__ == "__main__":
     db = SessionLocal()
     transaction_repo = TransactionRepo(db)
-    transaction = Transaction(
-        amount=45.55,
-        currency="EUR",
-        category="Cloth",
-        description="for my friend's party",
-        date=datetime.today(),
-        user_id=1
-    )
-    transaction_repo.add_transaction(transaction)
-    print(transaction_repo.get_all())
+    # transaction = Transaction(
+    #     amount=45.55,
+    #     currency="EUR",
+    #     category="Cloth",
+    #     description="for my friend's party",
+    #     date=datetime.today(),
+    #     user_id=1
+    # )
+    # transaction_repo.add_transaction(transaction)
+    foods = transaction_repo.get_by_category(category='Food')
+    for food in foods:
+        print(f"amount: {food.amount}, category: {food.category}")

@@ -52,6 +52,12 @@ class TransactionService:
     def delete_by_user_id(self, user_id: int):
         return self.repo.delete_transaction(user_id)
 
+    def daily_summary(self, user_id: int):
+        return self.repo.get_daily_summary(user_id)
+
+    def monthly_summary(self, user_id: int):
+        return self.repo.get_monthly_summary(user_id)
+
 if '__main__' == __name__:
     session = SessionLocal()
     service = TransactionService(session)
