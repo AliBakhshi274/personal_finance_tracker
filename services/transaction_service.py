@@ -1,10 +1,9 @@
 from datetime import datetime, timezone
-
 from sqlalchemy.orm import Session
-
 from database.config import SessionLocal
 from models.transaction import Transaction
 from repositories.transaction_repo import TransactionRepo
+from utils.currency import get_exchange_rate
 
 class TransactionService:
     def __init__(self, db: Session):
@@ -23,8 +22,18 @@ class TransactionService:
         elif amount < 0:
             raise ValueError("Amount can't be negative")
 
+        if currency.upper() != "EUR":
+            try:
+                rate = get_exchange_rate(base_currency=currency.upper(), target_currency="EUR")
+                amount_in_eur = amount * rate
+                currency = "EUR"
+            except Exception as e:
+                raise ValueError(f"Invalid currency or error in get_exchange_rate: {str(e)}")
+        else:
+            amount_in_eur = amount
+
         transaction = Transaction(
-            amount=amount,
+            amount=amount_in_eur,
             currency=currency,
             category=category,
             description=description,

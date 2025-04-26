@@ -2,3 +2,4 @@ python-dotenv~=1.1.0
 SQLAlchemy~=2.0.40
 typer~=0.15.2
 alembic~=1.15.2
+requests~=2.32.3
