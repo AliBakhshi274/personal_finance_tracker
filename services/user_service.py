@@ -44,11 +44,10 @@ class UserService:
             raise ValueError("email and password are required")
 
         user =  self.repo.sign_in(email=email)
-        print(user.password)
-        print(user.email)
         if not user or not verify_password(password, user.password):
-            raise ValueError("Invalid password or email or first register")
+            raise ValueError("Invalid password or email (Try again!)")
 
+        self.repo.update_last_login(user.id)
         return user
 
     def delete_account(self, user_id: int):

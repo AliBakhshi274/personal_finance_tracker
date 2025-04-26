@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 import typer
 from sqlalchemy.orm import Session
@@ -56,6 +56,10 @@ class UserRepo:
 
     def sign_in(self, email: str):
         return self.session.query(UserModel).filter(UserModel.email == email).first()
+
+    def update_last_login(self, id: int):
+        self.session.query(UserModel).filter(UserModel.id == id).update({"last_login": datetime.now(timezone.utc)}, synchronize_session=False)
+        self.session.commit()
 
     def delete_account(self, user_id: int):
         user = self.get_user_by_id(user_id)
