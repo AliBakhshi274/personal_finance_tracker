@@ -4,3 +4,4 @@ typer~=0.15.2
 alembic~=1.15.2
 requests~=2.32.3
 matplotlib~=3.10.1
+Faker~=37.1.0

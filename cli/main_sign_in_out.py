@@ -1,12 +1,11 @@
 import json
 import typer
-
 from pathlib import Path
-
 from database.config import SessionLocal
 from services.transaction_service import TransactionService
 from services.user_service import UserService
 import utils.plotter as plotter
+
 app = typer.Typer()
 
 SESSION_FILE = Path("user_session.json")
@@ -171,7 +170,7 @@ if __name__ == "__main__":
     print(".......................................................")
     # monthly_summary()
     print("################################")
-    # plot_daily()
-    plot_monthly()
+    plot_daily()
+    # plot_monthly()
     # sign_out()
     # delete_account()

@@ -1,8 +1,5 @@
-from datetime import datetime
-
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-
 from database.config import SessionLocal
 from models.transaction import Transaction
 from models.transaction_model import TransactionModel
