@@ -1,6 +1,5 @@
-from datetime import datetime, timezone
-
 import typer
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 from database.config import SessionLocal
 from models.transaction_model import TransactionModel
@@ -69,6 +68,10 @@ class UserRepo:
         self.session.delete(user)
         self.session.commit()
         return user
+
+    def get_email(self, id: int):
+        user_data = self.session.query(UserModel).filter(UserModel.id == id).first()
+        return str(user_data.email)
 
 if __name__ == "__main__":
     db = SessionLocal()

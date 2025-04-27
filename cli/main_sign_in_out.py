@@ -155,11 +155,20 @@ def plot_monthly():
     plotter.plot_monthly_summary(summary)
     db.close()
 
+@app.command()
+def email_monthly_report():
+    user_id = load_session()
+    db = SessionLocal()
+    service_transaction = TransactionService(db)
+    service_user = UserService(db)
+    user_email = service_user.get_email(user_id=user_id)
+    service_transaction.email_monthly_summary(user_id=user_id, user_email=user_email)
+    db.close()
 
 if __name__ == "__main__":
-    # register("555", "555@gmail.com", "555")
+    # register("Amirali", "alibakhshi.bs@gmail.com", "amirali")
     # register("666", "666@gmail.com", "666")
-    # login("666@gmail.com", "666")
+    # login("alibakhshi.bs@gmail.com", "amirali")
     # login("555@gmail.com", "555")
     # login("345@gmail.com", "345")
     # add_transaction(amount=30, currency="IRR", category="Fruit", description="Banana")
@@ -170,7 +179,8 @@ if __name__ == "__main__":
     print(".......................................................")
     # monthly_summary()
     print("################################")
-    plot_daily()
+    email_monthly_report()
+    # plot_daily()
     # plot_monthly()
     # sign_out()
     # delete_account()

@@ -4,6 +4,8 @@ from database.config import SessionLocal
 from models.transaction import Transaction
 from repositories.transaction_repo import TransactionRepo
 from utils.currency import get_exchange_rate
+from utils.emailer import send_email
+
 
 class TransactionService:
     def __init__(self, db: Session):
@@ -57,6 +59,22 @@ class TransactionService:
 
     def monthly_summary(self, user_id: int):
         return self.repo.get_monthly_summary(user_id)
+
+    def email_monthly_summary(self, user_id: int, user_email: str):
+        summary = self.repo.get_monthly_summary(user_id=user_id)
+        print(summary)
+
+        if not summary:
+            raise Exception("there is no data for monthly report!")
+
+        body = "There is a MONTHLY report:<br>"
+        for year, month, total in summary:
+            body += f"{int(year)}-{int(month)}: {total} EUR <br>"
+        send_email(
+            receiver_email=user_email,
+            subject="Monthly Report",
+            body=body
+        )
 
 if '__main__' == __name__:
     session = SessionLocal()

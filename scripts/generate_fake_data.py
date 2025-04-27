@@ -42,4 +42,4 @@ def create_fake_transactions(user_id: int, count: int = 1000):
 
 
 if __name__ == '__main__':
-    create_fake_transactions(user_id=24)
+    create_fake_transactions(user_id=27)

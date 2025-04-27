@@ -53,6 +53,9 @@ class UserService:
     def delete_account(self, user_id: int):
         return self.repo.delete_account(user_id=user_id)
 
+    def get_email(self, user_id: int):
+        return self.repo.get_email(user_id)
+
 if __name__ == "__main__":
     session = SessionLocal()
     service = UserService(db=session)
