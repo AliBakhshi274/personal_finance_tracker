@@ -38,7 +38,7 @@ personal_finance_tracker/
 ├── docker-compose.yml
 └── requirements.txt
 ```
-![Project Structure](./images/structure.png)
+![Project Structure](/images/structure.png)
 
 ---
 
@@ -107,14 +107,14 @@ python -m cli.main_sign_in_out get-monthly-summary 5
 - **Docker Compose**: For environment isolation
 - **User Session JSON**: For lightweight session persistence
 
-<img alt="Email" height="600" src="./images/email.jpg" width="300"/>
+<img alt="Email" height="600" src="/images/email.jpg" width="300"/>
 
 ---
 
 ## 📈 Chart and Summaries
-| Matplotlib Monthly report                      | Matplotlib Daily report             |
-|------------------------------------------------|-------------------------------------|
-| ![monthly report](./images/monthly_report.png) | ![daily](./images/daily_report.png) |
+| Matplotlib Monthly report                     | Matplotlib Daily report            |
+|-----------------------------------------------|------------------------------------|
+| ![monthly report](/images/monthly_report.png) | ![daily](/images/daily_report.png) |
 
 
 
